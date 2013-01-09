@@ -1,24 +1,24 @@
 <exporter version="1.0">
     <!-- identifier of the exporter -->
     <name>orx</name>
-	
+
     <!-- display name of the exporter for the combo box -->
     <displayName>Orx</displayName>
-	
+
     <!-- description of the exporter -->
-    <description>Exporter to orx format</description>
+    <description>Orx Exporter</description>
 
     <!-- exporter version -->
     <version>1.0</version>
-	
+
     <!-- currently only one file allowed - more to come with update -->
     <files>
         <file>
             <!-- name of this file variable -->
-            <name>inifile</name>
+            <name>orxconfig</name>
 
             <!-- human readable name (for GUI) -->
-            <displayName>ini file</displayName>
+            <displayName>Orx config file</displayName>
 
             <!-- file extension for the file -->
             <fileExtension>ini</fileExtension>
@@ -38,7 +38,7 @@
     <rotationDirection>cw</rotationDirection>
 
     <!-- supports npot sizes -->
-    <supportsNPOT>false</supportsNPOT>
+    <supportsNPOT>true</supportsNPOT>
 
     <!-- supports file name stripping (remove .png etc) -->
     <supportsTrimSpriteNames>yes</supportsTrimSpriteNames>
@@ -47,5 +47,3 @@
     <supportsTextureSubPath>yes</supportsTextureSubPath>
 
 </exporter>
-
-
