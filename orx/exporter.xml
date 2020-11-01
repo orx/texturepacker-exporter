@@ -9,7 +9,7 @@
     <description>Orx Exporter</description>
 
     <!-- exporter version -->
-    <version>1.0</version>
+    <version>1.1</version>  
 
     <!-- currently only one file allowed - more to come with update -->
     <files>
@@ -46,4 +46,31 @@
     <!-- supports texure subpath -->
     <supportsTextureSubPath>yes</supportsTextureSubPath>
 
+    <supportsPivotPoint>true</supportsPivotPoint>
+
+    <supportsAnimations>true</supportsAnimations>
+	
+	<properties>
+        <property>
+            <name>includeComments</name>
+            <type>bool</type>
+            <displayName>Include comments</displayName>
+            <toolTip>Output comments in produced result.</toolTip>
+            <isAdvanced>true</isAdvanced>
+        </property>
+        <property>
+            <name>keepInCache</name>
+            <type>bool</type>
+            <displayName>Keep in cache</displayName>
+            <toolTip>Keep textures and animations in cache.</toolTip>
+            <default>false</default>
+        </property>
+        <property>
+            <name>keyDuration</name>
+            <type>string</type>
+            <displayName>Key duration</displayName>
+            <toolTip>Animation key duration in seconds.</toolTip>
+            <default>0.15</default>
+        </property>
+    </properties>
 </exporter>
