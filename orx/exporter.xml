@@ -50,7 +50,16 @@
 
     <supportsAnimations>true</supportsAnimations>
 	
-	<properties>
+	<!-- You can specify default values for the following TexturePacker settings.
+         They are used if a new project is created or if the data format of
+         an existing project is changed and "Update to recommended values"
+         is checked. The complete <defaults> block is optional. -->
+    <defaults>
+        <writePivotPoints>true</writePivotPoints>
+        <defaultPivotPoint>0.5,0.5</defaultPivotPoint>
+    </defaults>
+    
+    <properties>
         <property>
             <name>includeComments</name>
             <type>bool</type>

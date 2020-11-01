@@ -82,6 +82,14 @@ function sortByName(arr) {
     });
 }
 
+function pivotToString(sprite) {
+    var pivot = normPointToString(sprite.pivotPointNorm);
+    if (pivot === undefined) {
+        pivot = pointToString(sprite.pivotPoint);
+    }
+    return pivot;
+}
+
 function normPointToString(point) {
     if (point.x == 0.5 && point.y == 0.5)
         return 'center';
@@ -93,8 +101,8 @@ function normPointToString(point) {
         return 'top|right';
     if (point.x == 0.0 && point.y == 1.0)
         return 'bottom|left';
-  
-    return pointToString(point);
+    
+    // orx wants absolute coordinates!
 }
 
 function sizeToString(size) {
@@ -127,7 +135,7 @@ function printFrame(root, sprite, id, parentId) {
            tag('TextureSize', sizeToString(sprite.frameRect)));
 
     if (root.settings.writePivotPoints) {
-        append(tag('Pivot', normPointToString(sprite.pivotPointNorm)));
+        append(tag('Pivot', pivotToString(sprite)));
     }
     append();
 }
