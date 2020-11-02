@@ -68,6 +68,13 @@
             <isAdvanced>true</isAdvanced>
         </property>
         <property>
+            <name>optimizeSectionNames</name>
+            <type>bool</type>
+            <displayName>Optimize section names</displayName>
+            <toolTip>Optimize image paths to pascal-cased section names.</toolTip>
+            <default>true</default>
+        </property>
+        <property>
             <name>keepInCache</name>
             <type>bool</type>
             <displayName>Keep in cache</displayName>
@@ -79,7 +86,7 @@
             <type>string</type>
             <displayName>Key duration</displayName>
             <toolTip>Animation key duration in seconds.</toolTip>
-            <default>0.15</default>
+            <default>0.1</default>
         </property>
     </properties>
 </exporter>

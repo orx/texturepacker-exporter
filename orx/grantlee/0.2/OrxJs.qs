@@ -12,12 +12,18 @@ function append() {
 }
 
 function friendlyName(name) {
-    name = name.replace(/[^a-z0-9]/gi, ' ');        // Keep alpha-numeric
+    name = name.replace(/[^a-z0-9]/gi, ' ');      // Keep alpha-numeric
     name = name[0].toUpperCase() + name.slice(1); // Proper case
     return name;
 }
 
-function getId(name) {
+function getId(root, name) {
+    if (!root.exporterProperties.optimizeSectionNames) {
+        // No fancy stuff. Just replace some special characters.
+        name = name.replace(/[@\[\]]/g, '_');
+        return name;
+    }
+    
     // 'big enemy/hard-boss/boss_01' -> ['big', 'enemy', 'hard', 'boss', 'boss', '01']
     var parts = name.split(/\/|_|-| /g);
     
@@ -94,13 +100,13 @@ function normPointToString(point) {
     if (point.x == 0.5 && point.y == 0.5)
         return 'center';
     if (point.x == 0.0 && point.y == 0.0)
-        return 'top|left';
+        return 'top left';
     if (point.x == 1.0 && point.y == 1.0)
-        return 'bottom|right';
+        return 'bottom right';
     if (point.x == 1.0 && point.y == 0.0)
-        return 'top|right';
+        return 'top right';
     if (point.x == 0.0 && point.y == 1.0)
-        return 'bottom|left';
+        return 'bottom left';
     
     // orx wants absolute coordinates!
 }
@@ -114,15 +120,14 @@ function printAnimation(root, sprite, texture, frameCount) {
         return;
     }
     
-    var animationSetid = getContainerId(sprite.trimmedName, 'animation-set');
-    var animId = getContainerId(sprite.trimmedName, 'anim');
+    var animationSetid = getContainerId(root, sprite.trimmedName, 'animation-set');
+    var animId = getContainerId(root, sprite.trimmedName, 'anim');
     
     append(section(animationSetid),
            tag('Texture', texture.fullName),
            tagIf('KeepInCache', true, root.exporterProperties.keepInCache),
            tag('FrameSize', sizeToString(sprite.untrimmedSize)),
            tag('KeyDuration', root.exporterProperties.keyDuration),
-           tag('Digits', digitCount(frameCount)),
            tag('StartAnim', animId),
            tag(animId, frameCount));
     
@@ -140,37 +145,28 @@ function printFrame(root, sprite, id, parentId) {
     append();
 }
 
-function pad(num, size) {
-    return ('000000000' + num).substr(-size);
-}
-
-function digitCount(num) {
-    return num.toString().length;
-}
-
 function getFrameInfo(root, sprite, texture, frameData) {
     var name = sprite.trimmedName;
     var parentId;
     
     if (root.settings.autodetectAnimations && frameData.frameCount > 1) {
-        var size = digitCount(frameData.frameCount);
-        var anim = 'anim' + pad(frameData.frameNo, size);
+        var anim = 'anim' + frameData.frameNo;
 
-        name = getContainerId(name, anim);
+        name = getContainerId(root, name, anim);
     } else {
-        parentId = getId(texture.trimmedName);
+        parentId = getId(root, texture.trimmedName);
     }
     
     return {
-        id: getId(name),
+        id: getId(root, name),
         parentId: parentId
     };
 }
 
-function getContainerId(name, suffix) {
+function getContainerId(root, name, suffix) {
     name = name.replace(/\d+$/gi, suffix);
     
-    return getId(name);
+    return getId(root, name);
 }
 
 function getPath(name) {
@@ -250,7 +246,7 @@ function printFrames(root) {
 }
 
 function printTexture(root, texture) {
-    var id = getId(texture.trimmedName);
+    var id = getId(root, texture.trimmedName);
     append(section(id),
            tag('Texture', texture.fullName),
            tag('TextureSize', sizeToString(texture.size)),
