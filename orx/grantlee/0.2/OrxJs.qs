@@ -20,22 +20,28 @@ function friendlyName(name) {
 function getId(root, name) {
     if (!root.exporterProperties.optimizeSectionNames) {
         // No fancy stuff. Just replace some special characters.
-        name = name.replace(/[@\[\]]/g, '_');
+        name = name.replace(/[@\[\]]+/g, '_');
         return name;
     }
     
-    // 'big enemy/hard-boss/boss_01' -> ['big', 'enemy', 'hard', 'boss', 'boss', '01']
-    var parts = name.split(/\/|_|-| /g);
+    // 'big  enemy/hard-boss/boss_01' -> ['big', 'enemy', 'hard', 'boss', 'boss', '01']
+    var parts = name.split(/[\/_\- ]+/g);
     
     for (var i = 0; i < parts.length; i++) {
         parts[i] = friendlyName(parts[i]);
     }
     
-    // Optimize any sequences of the same identifier.
-    // E.g. ['Boss', 'Boss', 'Boss'] -> 'Boss'
+    // Optimize any sequences of equivalent identifiers.
+    // E.g. ['Boss', 'Boss', 'Boss1' -> 'Boss1'
     var clean = parts[0];
     for (var i = 1; i < parts.length; i++) {
-        if (parts[i] !== parts[i - 1]) {
+        var current = parts[i];
+        if (i == parts.length - 1) {
+            // Skip trailing digits on actual filename!
+            current = replaceTrailingDigits(current, '');
+        }
+        
+        if (current !== parts[i - 1]) {
             clean += parts[i];
         }
     }
@@ -50,12 +56,8 @@ function section(id) {
     return '[' + id + ']';
 }
 
-function frameSection(root, sprite, id, parentId) {
-    var frameId = id;
-    if (parentId !== undefined) {
-        frameId += '@' + parentId;
-    }
-    result = section(frameId);
+function frameSection(root, sprite, id) {
+    result = section(id);
 
     if (root.exporterProperties.includeComments) {
         result += ' ; Source: ' + sprite.fullName;
@@ -88,25 +90,40 @@ function sortByName(arr) {
     });
 }
 
-function pivotToString(sprite) {
-    var pivot = normPointToString(sprite.pivotPointNorm);
+function pivotToString(root, sprite) {
+    var pivot = normPointToString(root, sprite.pivotPointNorm);
     if (pivot === undefined) {
         pivot = pointToString(sprite.pivotPoint);
     }
     return pivot;
 }
 
-function normPointToString(point) {
-    if (point.x == 0.5 && point.y == 0.5)
-        return 'center';
-    if (point.x == 0.0 && point.y == 0.0)
-        return 'top left';
-    if (point.x == 1.0 && point.y == 1.0)
-        return 'bottom right';
-    if (point.x == 1.0 && point.y == 0.0)
-        return 'top right';
-    if (point.x == 0.0 && point.y == 1.0)
-        return 'bottom left';
+function getPointName(root, c, horizontal) {
+    var snap = root.exporterProperties.pixelSnap ? '+truncate' : '';
+    
+    switch (c) {
+        case 0.0: return horizontal ? 'left' : 'top';
+        case 0.5: return 'center' + snap;
+        case 1.0: return horizontal ? 'right' : 'bottom';
+    }
+}
+
+function normPointToString(root, point) {
+    if (point.x === 0.0 && point.y === 0.0) {
+        // 'top left' is default.
+        return;
+    }
+    
+    var nx = getPointName(root, point.x, true);
+    var ny = getPointName(root, point.y, false);
+    
+    if (nx !== undefined && ny !== undefined) {
+        // No need to repeat identifier! E.g. 'center center'
+        if (nx === ny) {
+            return nx;
+        }
+        return nx + ' ' + ny;
+    }
     
     // orx wants absolute coordinates!
 }
@@ -115,62 +132,68 @@ function sizeToString(size) {
     return '(' + size.width + ', ' + size.height + ')';
 }
 
-function printAnimation(root, sprite, texture, frameCount) {
-    if (!root.settings.autodetectAnimations || frameCount < 2) {
+function printAnimation(root, sprite, texture, frameData) {
+    if (!frameData.animation) {
+        return;
+    }
+    
+    // Only generate animation set for the first frame!
+    if (frameData.frameNo !== 1) {
         return;
     }
     
     var animationSetid = getContainerId(root, sprite.trimmedName, 'animation-set');
     var animId = getContainerId(root, sprite.trimmedName, 'anim');
+    var textureId = getId(root, texture.trimmedName);
     
     append(section(animationSetid),
-           tag('Texture', texture.fullName),
-           tagIf('KeepInCache', true, root.exporterProperties.keepInCache),
-           tag('FrameSize', sizeToString(sprite.untrimmedSize)),
+           tag('Texture', '@' + textureId),
+           tagIf('TextureOrigin', pointToString(sprite.frameRect), frameData.skippedFrames),
+           tagIf('FrameSize', sizeToString(sprite.size), frameData.skippedFrames),
+           tagIf('Pivot', pivotToString(root, sprite), root.settings.writePivotPoints),
            tag('KeyDuration', root.exporterProperties.keyDuration),
            tag('StartAnim', animId),
-           tag(animId, frameCount));
+           tagIf(animId, frameData.frameCount, frameData.skippedFrames)); // Required only if there are frames with no texture coordinates!
     
     append();
 }
 
-function printFrame(root, sprite, id, parentId) {
-    append(frameSection(root, sprite, id, parentId),
+function printFrame(root, sprite, texture, frameData) {
+    if (frameData.skipped) {
+        return;
+    }
+    
+    var id = getFrameId(root, sprite, frameData);
+    var textureId = getId(root, texture.trimmedName);
+    
+    append(frameSection(root, sprite, id),
+           tagIf('Texture', '@' + textureId, !frameData.animation),
            tag('TextureOrigin', pointToString(sprite.frameRect)),
-           tag('TextureSize', sizeToString(sprite.frameRect)));
-
-    if (root.settings.writePivotPoints) {
-        append(tag('Pivot', pivotToString(sprite)));
-    }
+           tagIf('TextureSize', sizeToString(sprite.frameRect), !frameData.skippedFrames), // FrameSize already set?
+           tagIf('Pivot', pivotToString(root, sprite), root.settings.writePivotPoints && !frameData.animation));
+    
     append();
 }
 
-function getFrameInfo(root, sprite, texture, frameData) {
+function getFrameId(root, sprite, frameData) {
     var name = sprite.trimmedName;
-    var parentId;
     
-    if (root.settings.autodetectAnimations && frameData.frameCount > 1) {
+    if (frameData.animation) {
         var anim = 'anim' + frameData.frameNo;
-
         name = getContainerId(root, name, anim);
-    } else {
-        parentId = getId(root, texture.trimmedName);
     }
-    
-    return {
-        id: getId(root, name),
-        parentId: parentId
-    };
-}
-
-function getContainerId(root, name, suffix) {
-    name = name.replace(/\d+$/gi, suffix);
     
     return getId(root, name);
 }
 
-function getPath(name) {
-    return name.replace(/\/[^\/]+$/g, '');
+function replaceTrailingDigits(s, replacement) {
+    return s.replace(/(\D)\d+$/gi, '$1' + replacement);
+}
+
+function getContainerId(root, name, suffix) {
+    name = replaceTrailingDigits(name, '-' + suffix);
+    
+    return getId(root, name);
 }
 
 function sizeEqual(a, b) {
@@ -185,15 +208,31 @@ function isNewFrameSet(sprite, prevSprite) {
     if (prevSprite === undefined) {
         return true;
     }
-    var path = getPath(sprite.trimmedName);
+    
+    var path = replaceTrailingDigits(sprite.trimmedName, '');
+    var prevPath = replaceTrailingDigits(prevSprite.trimmedName, '');
     var size = sprite.untrimmedSize;
-    var prevPath = getPath(prevSprite.trimmedName);
     var prevSize = prevSprite.untrimmedSize;
     
+    // We have a new frame set if:
+    // * Filenames differ, excluding trailing digits.
+    // * Original sprite sizes differ.
     return (path !== prevPath || !sizeEqual(size, prevSize));
 }
 
-function getFrameData(root, sprites) {
+function spritesAligned(texture, sprite, prevSprite) {
+    var x = prevSprite.frameRect.x + prevSprite.frameRect.width;
+    var y = prevSprite.frameRect.y;
+    
+    if (x >= texture.size.width) {
+        x = 0;
+        y = y + prevSprite.frameRect.height;
+    }
+    
+    return (sprite.frameRect.x === x && sprite.frameRect.y === y) && sizeEqual(prevSprite.frameRect, sprite.frameRect);
+}
+
+function getFrameData(root, texture, sprites) {
     var results = [];
     
     var start = 0, current = 0;
@@ -201,19 +240,37 @@ function getFrameData(root, sprites) {
     
     for (var i = 0; i < sprites.length; i++) {
         var sprite = sprites[i];
+        var skipped;
         if (isNewFrameSet(sprite, prevSprite)) {
+            skipped = false;
             start = i;
             current = 0;
-            prevSprite = sprite;
+        } else {
+            skipped = spritesAligned(texture, sprite, prevSprite);
         }
         
+        prevSprite = sprite;
+        
         results.push({
-            frameNo: ++current
+            frameNo: ++current,
+            skipped: skipped
         });
-    
+        
+        // Animations have at least two frames.
+        var animation = root.settings.autodetectAnimations && current >= 2;
+        
+        var skippedFrames = skipped;
+        // Update entire frame set.
         for (var j = start; j <= i; j++) {
+            skippedFrames = skippedFrames || results[j].skippedFrames;
+            
             results[j].frameCount = current;
+            results[j].animation = animation;
+            results[j].skippedFrames = skippedFrames;
         }
+        
+        // No need to define the start frame if we skipped frames!
+        results[start].skipped = skippedFrames;
     }
     
     return results;
@@ -226,21 +283,26 @@ function printFrames(root) {
         var texture = textures[i];
         var sprites = sortByName(texture.sprites);
         
-        var frameData = getFrameData(root, sprites);
+        var frameData = getFrameData(root, texture, sprites);
         
         for (var j = 0; j < sprites.length; j++) {
-            // Only generate animation set for the first frame!
-            if (frameData[j].frameNo == 1) {
-                var sprite = sprites[j];
-                printAnimation(root, sprite, texture, frameData[j].frameCount);
-            }    
+            var sprite = sprites[j];
+            
+            /*if (frameData[j].animation) {
+                append(sprite.fullName);
+                append('     cornerOffset  ' + pointToString(sprite.cornerOffset));
+                append('     size          ' + sizeToString(sprite.size));
+                append('     untrimmedSize ' + sizeToString(sprite.untrimmedSize));
+                append('     frameRect     ' + sizeToString(sprite.frameRect));
+                append('     sourceRect    ' + sizeToString(sprite.sourceRect));
+            }*/
+            
+            printAnimation(root, sprite, texture, frameData[j]);
         }
         
         for (var j = 0; j < sprites.length; j++) {
             var sprite = sprites[j];
-            var info = getFrameInfo(root, sprite, texture, frameData[j]);
-            
-            printFrame(root, sprite, info.id, info.parentId);
+            printFrame(root, sprite, texture, frameData[j]);
         }
     }
 }
