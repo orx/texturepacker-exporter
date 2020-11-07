@@ -288,15 +288,6 @@ function printFrames(root) {
         for (var j = 0; j < sprites.length; j++) {
             var sprite = sprites[j];
             
-            /*if (frameData[j].animation) {
-                append(sprite.fullName);
-                append('     cornerOffset  ' + pointToString(sprite.cornerOffset));
-                append('     size          ' + sizeToString(sprite.size));
-                append('     untrimmedSize ' + sizeToString(sprite.untrimmedSize));
-                append('     frameRect     ' + sizeToString(sprite.frameRect));
-                append('     sourceRect    ' + sizeToString(sprite.sourceRect));
-            }*/
-            
             printAnimation(root, sprite, texture, frameData[j]);
         }
         
