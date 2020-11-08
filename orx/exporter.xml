@@ -9,7 +9,7 @@
     <description>Orx Exporter</description>
 
     <!-- exporter version -->
-    <version>1.0</version>
+    <version>1.1</version>  
 
     <!-- currently only one file allowed - more to come with update -->
     <files>
@@ -46,4 +46,57 @@
     <!-- supports texure subpath -->
     <supportsTextureSubPath>yes</supportsTextureSubPath>
 
+    <supportsPivotPoint>true</supportsPivotPoint>
+
+    <supportsAnimations>true</supportsAnimations>
+	
+	<!-- You can specify default values for the following TexturePacker settings.
+         They are used if a new project is created or if the data format of
+         an existing project is changed and "Update to recommended values"
+         is checked. The complete <defaults> block is optional. -->
+    <defaults>
+        <writePivotPoints>true</writePivotPoints>
+        <defaultPivotPoint>0.5,0.5</defaultPivotPoint>
+    </defaults>
+    
+    <properties>
+        <property>
+            <name>includeComments</name>
+            <type>bool</type>
+            <displayName>Include comments</displayName>
+            <toolTip>Output comments in produced result.</toolTip>
+            <isAdvanced>true</isAdvanced>
+        </property>
+        <property>
+            <name>optimizeSectionNames</name>
+            <type>bool</type>
+            <displayName>Optimize section names</displayName>
+            <toolTip>Optimize image paths to pascal-cased section names.</toolTip>
+            <default>true</default>
+        </property>
+        <property>
+            <name>pixelSnap</name>
+            <type>bool</type>
+            <displayName>Pixel-snap pivot points</displayName>
+            <toolTip>Snap center pivot points to whole pixels.</toolTip>
+            <default>false</default>
+            <isAdvanced>true</isAdvanced>
+        </property>
+        <property>
+            <name>keepInCache</name>
+            <type>bool</type>
+            <displayName>Keep in cache</displayName>
+            <toolTip>Keep textures and animations in cache.</toolTip>
+            <default>false</default>
+            <isAdvanced>true</isAdvanced>
+        </property>
+        <property>
+            <name>keyDuration</name>
+            <type>string</type>
+            <displayName>Key duration</displayName>
+            <toolTip>Animation key duration in seconds.</toolTip>
+            <default>0.1</default>
+            <isAdvanced>true</isAdvanced>
+        </property>
+    </properties>
 </exporter>
