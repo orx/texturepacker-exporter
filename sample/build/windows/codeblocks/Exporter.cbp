@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Exporter" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug|x64">
+				<Option output="../../../bin/Exporterd.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/x64/Debug" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-ffast-math" />
+					<Add option="-g" />
+					<Add option="-msse2" />
+					<Add option="-m64" />
+					<Add option="-fno-exceptions" />
+					<Add option="-D__orxDEBUG__" />
+					<Add directory="$(ORX)/include" />
+					<Add directory="../../../include" />
+				</Compiler>
+				<Linker>
+					<Add option="-static-libgcc" />
+					<Add option="-static-libstdc++" />
+					<Add option="-m64" />
+					<Add option="-L/usr/lib64" />
+					<Add directory="$(ORX)/lib/dynamic" />
+					<Add directory="." />
+					<Add library="orxd" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="cmd /c copy /Y $(ORX)\lib\dynamic\orx*.dll ..\..\..\bin" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Profile|x64">
+				<Option output="../../../bin/Exporterp.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/x64/Profile" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-ffast-math" />
+					<Add option="-g" />
+					<Add option="-msse2" />
+					<Add option="-O2" />
+					<Add option="-m64" />
+					<Add option="-fno-exceptions" />
+					<Add option="-fno-rtti" />
+					<Add option="-D__orxPROFILER__" />
+					<Add directory="$(ORX)/include" />
+					<Add directory="../../../include" />
+				</Compiler>
+				<Linker>
+					<Add option="-static-libgcc" />
+					<Add option="-static-libstdc++" />
+					<Add option="-m64" />
+					<Add option="-L/usr/lib64" />
+					<Add directory="$(ORX)/lib/dynamic" />
+					<Add directory="." />
+					<Add library="orxp" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="cmd /c copy /Y $(ORX)\lib\dynamic\orx*.dll ..\..\..\bin" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Release|x64">
+				<Option output="../../../bin/Exporter.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/x64/Release" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-ffast-math" />
+					<Add option="-g" />
+					<Add option="-msse2" />
+					<Add option="-O2" />
+					<Add option="-m64" />
+					<Add option="-fno-exceptions" />
+					<Add option="-fno-rtti" />
+					<Add directory="$(ORX)/include" />
+					<Add directory="../../../include" />
+				</Compiler>
+				<Linker>
+					<Add option="-static-libgcc" />
+					<Add option="-static-libstdc++" />
+					<Add option="-mwindows" />
+					<Add option="-m64" />
+					<Add option="-L/usr/lib64" />
+					<Add directory="$(ORX)/lib/dynamic" />
+					<Add directory="." />
+					<Add library="orx" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="cmd /c copy /Y $(ORX)\lib\dynamic\orx*.dll ..\..\..\bin" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Debug|x32">
+				<Option output="../../../bin/Exporterd.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/x32/Debug" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-ffast-math" />
+					<Add option="-g" />
+					<Add option="-msse2" />
+					<Add option="-m32" />
+					<Add option="-fno-exceptions" />
+					<Add option="-D__orxDEBUG__" />
+					<Add directory="$(ORX)/include" />
+					<Add directory="../../../include" />
+				</Compiler>
+				<Linker>
+					<Add option="-static-libgcc" />
+					<Add option="-static-libstdc++" />
+					<Add option="-m32" />
+					<Add option="-L/usr/lib32" />
+					<Add directory="$(ORX)/lib/dynamic" />
+					<Add directory="." />
+					<Add library="orxd" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="cmd /c copy /Y $(ORX)\lib\dynamic\orx*.dll ..\..\..\bin" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Profile|x32">
+				<Option output="../../../bin/Exporterp.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/x32/Profile" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-ffast-math" />
+					<Add option="-g" />
+					<Add option="-msse2" />
+					<Add option="-O2" />
+					<Add option="-m32" />
+					<Add option="-fno-exceptions" />
+					<Add option="-fno-rtti" />
+					<Add option="-D__orxPROFILER__" />
+					<Add directory="$(ORX)/include" />
+					<Add directory="../../../include" />
+				</Compiler>
+				<Linker>
+					<Add option="-static-libgcc" />
+					<Add option="-static-libstdc++" />
+					<Add option="-m32" />
+					<Add option="-L/usr/lib32" />
+					<Add directory="$(ORX)/lib/dynamic" />
+					<Add directory="." />
+					<Add library="orxp" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="cmd /c copy /Y $(ORX)\lib\dynamic\orx*.dll ..\..\..\bin" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Release|x32">
+				<Option output="../../../bin/Exporter.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/x32/Release" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-ffast-math" />
+					<Add option="-g" />
+					<Add option="-msse2" />
+					<Add option="-O2" />
+					<Add option="-m32" />
+					<Add option="-fno-exceptions" />
+					<Add option="-fno-rtti" />
+					<Add directory="$(ORX)/include" />
+					<Add directory="../../../include" />
+				</Compiler>
+				<Linker>
+					<Add option="-static-libgcc" />
+					<Add option="-static-libstdc++" />
+					<Add option="-mwindows" />
+					<Add option="-m32" />
+					<Add option="-L/usr/lib32" />
+					<Add directory="$(ORX)/lib/dynamic" />
+					<Add directory="." />
+					<Add library="orx" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="cmd /c copy /Y $(ORX)\lib\dynamic\orx*.dll ..\..\..\bin" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<Unit filename="../../../src/Exporter.c">
+			<Option virtualFolder="src" />
+		</Unit>
+		<Unit filename="../../../data/config/CreationTemplate.ini">
+			<Option virtualFolder="config" />
+		</Unit>
+		<Unit filename="../../../data/config/Exporter.ini">
+			<Option virtualFolder="config" />
+		</Unit>
+		<Unit filename="../../../data/config/Exporterd.ini">
+			<Option virtualFolder="config" />
+		</Unit>
+		<Unit filename="../../../data/config/Exporterp.ini">
+			<Option virtualFolder="config" />
+		</Unit>
+		<Unit filename="../../../data/config/SettingsTemplate.ini">
+			<Option virtualFolder="config" />
+		</Unit>
+		<Extensions>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
+
