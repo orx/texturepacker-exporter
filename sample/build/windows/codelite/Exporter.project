@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeLite_Project Name="Exporter">
+  <VirtualDirectory Name="Exporter">
+    <VirtualDirectory Name="config">
+      <File Name="../../../data/config/CreationTemplate.ini"/>
+      <File Name="../../../data/config/Exporter.ini"/>
+      <File Name="../../../data/config/Exporterd.ini"/>
+      <File Name="../../../data/config/Exporterp.ini"/>
+      <File Name="../../../data/config/SettingsTemplate.ini"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="src">
+      <File Name="../../../src/Exporter.c"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <Settings Type="Executable">
+    <Configuration Name="Debug_x64" CompilerType="MinGW ( mingw64 )" DebuggerType="GNU gdb debugger" Type="Executable">
+      <General OutputFile="../../../bin/Exporterd.exe" IntermediateDirectory="$(ConfigurationName)" Command="./Exporterd.exe" CommandArguments="" WorkingDirectory="../../../bin" PauseExecWhenProcTerminates="yes"/>
+      <Compiler Required="yes" Options="-ffast-math;-g;-msse2;-m64;-fno-exceptions" C_Options="-ffast-math;-g;-msse2;-m64">
+        <IncludePath Value="$(ORX)/include"/>
+        <IncludePath Value="../../../include"/>
+        <Preprocessor Value="__orxDEBUG__"/>
+      </Compiler>
+      <Linker Required="yes" Options="-static-libgcc;-static-libstdc++;-m64;-L/usr/lib64">
+        <LibraryPath Value="$(ORX)/lib/dynamic" />
+        <LibraryPath Value="." />
+        <Library Value="orxd" />
+      </Linker>
+      <ResourceCompiler Required="no" Options=""/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+          <![CDATA[
+            CC=x86_64-w64-mingw32-gcc
+            CXX=x86_64-w64-mingw32-g++
+            AR=x86_64-w64-mingw32-gcc-ar
+          ]]>
+      </Environment>
+      <PostBuild>
+        <Command Enabled="yes">cmd /c copy /Y $(ORX)\lib\dynamic\orx*.dll ..\..\..\bin</Command>
+      </PostBuild>
+      <CustomBuild Enabled="no">
+        <CleanCommand></CleanCommand>
+        <BuildCommand></BuildCommand>
+        <SingleFileCommand></SingleFileCommand>
+        <MakefileGenerationCommand></MakefileGenerationCommand>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory></WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild></CustomPostBuild>
+        <CustomPreBuild></CustomPreBuild>
+      </AdditionalRules>
+    </Configuration>
+    <Configuration Name="Profile_x64" CompilerType="MinGW ( mingw64 )" DebuggerType="GNU gdb debugger" Type="Executable">
+      <General OutputFile="../../../bin/Exporterp.exe" IntermediateDirectory="$(ConfigurationName)" Command="./Exporterp.exe" CommandArguments="" WorkingDirectory="../../../bin" PauseExecWhenProcTerminates="yes"/>
+      <Compiler Required="yes" Options="-ffast-math;-g;-msse2;-O2;-m64;-fno-exceptions;-fno-rtti" C_Options="-ffast-math;-g;-msse2;-O2;-m64">
+        <IncludePath Value="$(ORX)/include"/>
+        <IncludePath Value="../../../include"/>
+        <Preprocessor Value="__orxPROFILER__"/>
+      </Compiler>
+      <Linker Required="yes" Options="-static-libgcc;-static-libstdc++;-m64;-L/usr/lib64">
+        <LibraryPath Value="$(ORX)/lib/dynamic" />
+        <LibraryPath Value="." />
+        <Library Value="orxp" />
+      </Linker>
+      <ResourceCompiler Required="no" Options=""/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+          <![CDATA[
+            CC=x86_64-w64-mingw32-gcc
+            CXX=x86_64-w64-mingw32-g++
+            AR=x86_64-w64-mingw32-gcc-ar
+          ]]>
+      </Environment>
+      <PostBuild>
+        <Command Enabled="yes">cmd /c copy /Y $(ORX)\lib\dynamic\orx*.dll ..\..\..\bin</Command>
+      </PostBuild>
+      <CustomBuild Enabled="no">
+        <CleanCommand></CleanCommand>
+        <BuildCommand></BuildCommand>
+        <SingleFileCommand></SingleFileCommand>
+        <MakefileGenerationCommand></MakefileGenerationCommand>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory></WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild></CustomPostBuild>
+        <CustomPreBuild></CustomPreBuild>
+      </AdditionalRules>
+    </Configuration>
+    <Configuration Name="Release_x64" CompilerType="MinGW ( mingw64 )" DebuggerType="GNU gdb debugger" Type="Executable">
+      <General OutputFile="../../../bin/Exporter.exe" IntermediateDirectory="$(ConfigurationName)" Command="./Exporter.exe" CommandArguments="" WorkingDirectory="../../../bin" PauseExecWhenProcTerminates="no"/>
+      <Compiler Required="yes" Options="-ffast-math;-g;-msse2;-O2;-m64;-fno-exceptions;-fno-rtti" C_Options="-ffast-math;-g;-msse2;-O2;-m64">
+        <IncludePath Value="$(ORX)/include"/>
+        <IncludePath Value="../../../include"/>
+      </Compiler>
+      <Linker Required="yes" Options="-static-libgcc;-static-libstdc++;-mwindows;-m64;-L/usr/lib64">
+        <LibraryPath Value="$(ORX)/lib/dynamic" />
+        <LibraryPath Value="." />
+        <Library Value="orx" />
+      </Linker>
+      <ResourceCompiler Required="no" Options=""/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+          <![CDATA[
+            CC=x86_64-w64-mingw32-gcc
+            CXX=x86_64-w64-mingw32-g++
+            AR=x86_64-w64-mingw32-gcc-ar
+          ]]>
+      </Environment>
+      <PostBuild>
+        <Command Enabled="yes">cmd /c copy /Y $(ORX)\lib\dynamic\orx*.dll ..\..\..\bin</Command>
+      </PostBuild>
+      <CustomBuild Enabled="no">
+        <CleanCommand></CleanCommand>
+        <BuildCommand></BuildCommand>
+        <SingleFileCommand></SingleFileCommand>
+        <MakefileGenerationCommand></MakefileGenerationCommand>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory></WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild></CustomPostBuild>
+        <CustomPreBuild></CustomPreBuild>
+      </AdditionalRules>
+    </Configuration>
+    <Configuration Name="Debug_x32" CompilerType="MinGW ( mingw32 )" DebuggerType="GNU gdb debugger" Type="Executable">
+      <General OutputFile="../../../bin/Exporterd.exe" IntermediateDirectory="$(ConfigurationName)" Command="./Exporterd.exe" CommandArguments="" WorkingDirectory="../../../bin" PauseExecWhenProcTerminates="yes"/>
+      <Compiler Required="yes" Options="-ffast-math;-g;-msse2;-m32;-fno-exceptions" C_Options="-ffast-math;-g;-msse2;-m32">
+        <IncludePath Value="$(ORX)/include"/>
+        <IncludePath Value="../../../include"/>
+        <Preprocessor Value="__orxDEBUG__"/>
+      </Compiler>
+      <Linker Required="yes" Options="-static-libgcc;-static-libstdc++;-m32;-L/usr/lib32">
+        <LibraryPath Value="$(ORX)/lib/dynamic" />
+        <LibraryPath Value="." />
+        <Library Value="orxd" />
+      </Linker>
+      <ResourceCompiler Required="no" Options=""/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+          <![CDATA[
+            CC=i686-w64-mingw32-gcc
+            CXX=i686-w64-mingw32-g++
+            AR=i686-w64-mingw32-gcc-ar
+          ]]>
+      </Environment>
+      <PostBuild>
+        <Command Enabled="yes">cmd /c copy /Y $(ORX)\lib\dynamic\orx*.dll ..\..\..\bin</Command>
+      </PostBuild>
+      <CustomBuild Enabled="no">
+        <CleanCommand></CleanCommand>
+        <BuildCommand></BuildCommand>
+        <SingleFileCommand></SingleFileCommand>
+        <MakefileGenerationCommand></MakefileGenerationCommand>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory></WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild></CustomPostBuild>
+        <CustomPreBuild></CustomPreBuild>
+      </AdditionalRules>
+    </Configuration>
+    <Configuration Name="Profile_x32" CompilerType="MinGW ( mingw32 )" DebuggerType="GNU gdb debugger" Type="Executable">
+      <General OutputFile="../../../bin/Exporterp.exe" IntermediateDirectory="$(ConfigurationName)" Command="./Exporterp.exe" CommandArguments="" WorkingDirectory="../../../bin" PauseExecWhenProcTerminates="yes"/>
+      <Compiler Required="yes" Options="-ffast-math;-g;-msse2;-O2;-m32;-fno-exceptions;-fno-rtti" C_Options="-ffast-math;-g;-msse2;-O2;-m32">
+        <IncludePath Value="$(ORX)/include"/>
+        <IncludePath Value="../../../include"/>
+        <Preprocessor Value="__orxPROFILER__"/>
+      </Compiler>
+      <Linker Required="yes" Options="-static-libgcc;-static-libstdc++;-m32;-L/usr/lib32">
+        <LibraryPath Value="$(ORX)/lib/dynamic" />
+        <LibraryPath Value="." />
+        <Library Value="orxp" />
+      </Linker>
+      <ResourceCompiler Required="no" Options=""/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+          <![CDATA[
+            CC=i686-w64-mingw32-gcc
+            CXX=i686-w64-mingw32-g++
+            AR=i686-w64-mingw32-gcc-ar
+          ]]>
+      </Environment>
+      <PostBuild>
+        <Command Enabled="yes">cmd /c copy /Y $(ORX)\lib\dynamic\orx*.dll ..\..\..\bin</Command>
+      </PostBuild>
+      <CustomBuild Enabled="no">
+        <CleanCommand></CleanCommand>
+        <BuildCommand></BuildCommand>
+        <SingleFileCommand></SingleFileCommand>
+        <MakefileGenerationCommand></MakefileGenerationCommand>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory></WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild></CustomPostBuild>
+        <CustomPreBuild></CustomPreBuild>
+      </AdditionalRules>
+    </Configuration>
+    <Configuration Name="Release_x32" CompilerType="MinGW ( mingw32 )" DebuggerType="GNU gdb debugger" Type="Executable">
+      <General OutputFile="../../../bin/Exporter.exe" IntermediateDirectory="$(ConfigurationName)" Command="./Exporter.exe" CommandArguments="" WorkingDirectory="../../../bin" PauseExecWhenProcTerminates="no"/>
+      <Compiler Required="yes" Options="-ffast-math;-g;-msse2;-O2;-m32;-fno-exceptions;-fno-rtti" C_Options="-ffast-math;-g;-msse2;-O2;-m32">
+        <IncludePath Value="$(ORX)/include"/>
+        <IncludePath Value="../../../include"/>
+      </Compiler>
+      <Linker Required="yes" Options="-static-libgcc;-static-libstdc++;-mwindows;-m32;-L/usr/lib32">
+        <LibraryPath Value="$(ORX)/lib/dynamic" />
+        <LibraryPath Value="." />
+        <Library Value="orx" />
+      </Linker>
+      <ResourceCompiler Required="no" Options=""/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+          <![CDATA[
+            CC=i686-w64-mingw32-gcc
+            CXX=i686-w64-mingw32-g++
+            AR=i686-w64-mingw32-gcc-ar
+          ]]>
+      </Environment>
+      <PostBuild>
+        <Command Enabled="yes">cmd /c copy /Y $(ORX)\lib\dynamic\orx*.dll ..\..\..\bin</Command>
+      </PostBuild>
+      <CustomBuild Enabled="no">
+        <CleanCommand></CleanCommand>
+        <BuildCommand></BuildCommand>
+        <SingleFileCommand></SingleFileCommand>
+        <MakefileGenerationCommand></MakefileGenerationCommand>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory></WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild></CustomPostBuild>
+        <CustomPreBuild></CustomPreBuild>
+      </AdditionalRules>
+    </Configuration>
+  </Settings>
+  <Dependencies name="Debug_x64">
+  </Dependencies>
+  <Dependencies name="Profile_x64">
+  </Dependencies>
+  <Dependencies name="Release_x64">
+  </Dependencies>
+  <Dependencies name="Debug_x32">
+  </Dependencies>
+  <Dependencies name="Profile_x32">
+  </Dependencies>
+  <Dependencies name="Release_x32">
+  </Dependencies>
+</CodeLite_Project>
