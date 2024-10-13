@@ -92,7 +92,7 @@ function sortByName(arr) {
 
 function pivotToString(root, sprite) {
     var pivot;
-    if(sprite.pivotPoint !== undefined && sprite.trimmed === true) {
+    if (sprite.pivotPoint !== undefined && sprite.trimmed === true) {
         pivot = sprite.pivotPoint;
         pivot.x = pivot.x - sprite.cornerOffset.x;
         pivot.y = pivot.y - sprite.cornerOffset.y;
