@@ -90,11 +90,31 @@ function sortByName(arr) {
     });
 }
 
+function truncate(num) {
+    return num | 0;
+}
+
+function pixelSnap(root, num) {
+    return root.exporterProperties.pixelSnap ? truncate(num) : num;
+}
+
 function pivotToString(root, sprite) {
-    var pivot = normPointToString(root, sprite.pivotPointNorm);
-    if (pivot === undefined) {
-        pivot = pointToString(sprite.pivotPoint);
+    var pivot;
+    if (sprite.pivotPoint !== undefined && sprite.trimmed === true) {
+        var p = {
+			x: pixelSnap(root, sprite.pivotPoint.x - sprite.cornerOffset.x),
+			y: pixelSnap(root, sprite.pivotPoint.y - sprite.cornerOffset.y)
+		};
+        
+		pivot = pointToString(p);
     }
+    else {
+        pivot = normPointToString(root, sprite.pivotPointNorm);
+        if (pivot === undefined) {
+            pivot = pointToString(sprite.pivotPoint);
+        }
+    }
+        
     return pivot;
 }
 
@@ -150,7 +170,6 @@ function printAnimation(root, sprite, texture, frameData) {
            tag('Texture', '@' + textureId),
            tagIf('TextureOrigin', pointToString(sprite.frameRect), frameData.skippedFrames),
            tagIf('FrameSize', sizeToString(sprite.size), frameData.skippedFrames),
-           tagIf('Pivot', pivotToString(root, sprite), root.settings.writePivotPoints),
            tag('KeyDuration', root.exporterProperties.keyDuration),
            tag('StartAnim', animId),
            tagIf(animId, frameData.frameCount, frameData.skippedFrames)); // Required only if there are frames with no texture coordinates!
@@ -170,7 +189,7 @@ function printFrame(root, sprite, texture, frameData) {
            tagIf('Texture', '@' + textureId, !frameData.animation),
            tag('TextureOrigin', pointToString(sprite.frameRect)),
            tagIf('TextureSize', sizeToString(sprite.frameRect), !frameData.skippedFrames), // FrameSize already set?
-           tagIf('Pivot', pivotToString(root, sprite), root.settings.writePivotPoints && !frameData.animation));
+           tagIf('Pivot', pivotToString(root, sprite), root.settings.writePivotPoints));
     
     append();
 }
