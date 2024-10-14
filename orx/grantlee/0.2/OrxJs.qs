@@ -102,11 +102,11 @@ function pivotToString(root, sprite) {
     var pivot;
     if (sprite.pivotPoint !== undefined && sprite.trimmed === true) {
         var p = {
-			x: pixelSnap(root, sprite.pivotPoint.x - sprite.cornerOffset.x),
-			y: pixelSnap(root, sprite.pivotPoint.y - sprite.cornerOffset.y)
-		};
+            x: pixelSnap(root, sprite.pivotPoint.x - sprite.cornerOffset.x),
+            y: pixelSnap(root, sprite.pivotPoint.y - sprite.cornerOffset.y)
+        };
         
-		pivot = pointToString(p);
+        pivot = pointToString(p);
     }
     else {
         pivot = normPointToString(root, sprite.pivotPointNorm);
