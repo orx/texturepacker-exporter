@@ -90,14 +90,24 @@ function sortByName(arr) {
     });
 }
 
+function truncate(num) {
+    return num | 0;
+}
+
+function pixelSnap(root, num) {
+    return root.exporterProperties.pixelSnap ? truncate(num) : num;
+}
+
 function pivotToString(root, sprite) {
     var pivot;
     if (sprite.pivotPoint !== undefined && sprite.trimmed === true) {
-        pivot = sprite.pivotPoint;
-        pivot.x = pivot.x - sprite.cornerOffset.x;
-        pivot.y = pivot.y - sprite.cornerOffset.y;
-        return pointToString(pivot);
-    } 
+        var p = {
+            x: pixelSnap(root, sprite.pivotPoint.x - sprite.cornerOffset.x),
+            y: pixelSnap(root, sprite.pivotPoint.y - sprite.cornerOffset.y)
+        };
+        
+        pivot = pointToString(p);
+    }
     else {
         pivot = normPointToString(root, sprite.pivotPointNorm);
         if (pivot === undefined) {
