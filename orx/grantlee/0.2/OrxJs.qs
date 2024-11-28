@@ -189,7 +189,8 @@ function printFrame(root, sprite, texture, frameData) {
            tagIf('Texture', '@' + textureId, !frameData.animation),
            tag('TextureOrigin', pointToString(sprite.frameRect)),
            tagIf('TextureSize', sizeToString(sprite.frameRect), !frameData.skippedFrames), // FrameSize already set?
-           tagIf('Pivot', pivotToString(root, sprite), root.settings.writePivotPoints));
+           tagIf('Pivot', pivotToString(root, sprite), root.settings.writePivotPoints),
+           tagIf('Orientation', 'right', sprite.rotated));
     
     append();
 }

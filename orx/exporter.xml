@@ -32,7 +32,7 @@
     <supportsTrimming>true</supportsTrimming>
 
     <!-- target framework supports rotated sprites -->
-    <supportsRotation>false</supportsRotation>
+    <supportsRotation>true</supportsRotation>
 
     <!-- rotated sprites direction (cw/ccw) -->
     <rotationDirection>cw</rotationDirection>
